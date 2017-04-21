@@ -10,13 +10,14 @@ import com.zw.service.IUserService;
 
 @Service("userService")
 public class UserServiceImpl implements IUserService {
-	@Resource
+	@Resource 
 	private UserDao userDao;
-	
+     
+	@Override
 	public User getUserById(int userId) {
 		// TODO Auto-generated method stub
+		System.out.println("service");
 		return this.userDao.selectByPrimaryKey(userId);
 	}
-
 
 }
