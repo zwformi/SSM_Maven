@@ -1,49 +1,55 @@
 package com.zw.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.alibaba.fastjson.JSON;
 import com.zw.pojo.User;
 import com.zw.service.IUserService;
 
 
 @Controller
+@RequestMapping("/user")
 public class TestStudentController {
 	@Resource
 	private IUserService userService = null; 
 	private static Logger logger = Logger.getLogger(TestStudentController.class);
 	
-	 @RequestMapping(value="/test", method = RequestMethod.GET)
-	 @ResponseBody
-	 public ModelAndView test(HttpServletRequest request){
-		  ModelAndView mav = new ModelAndView();
+	@RequestMapping("/showUser")
+	 public String user(HttpServletRequest request,Model model){
+
 		  System.out.println("<<====开始===>>");
-		  System.out.println("你已经进入了Controller层！！");
 		  
-		  User user = userService.getUserById(1);  
-		  logger.info(222);
-		  logger.info(JSON.toJSONString(user));
-		  System.out.println("success");
-		  
-		  Map<String,Object> map = new HashMap<String, Object>();
-		  map.put("a", 1);
-		  mav.setViewName("404");
-		  mav.addObject(map);
+		  int userId = Integer.parseInt(request.getParameter("id"));
+		  User user = userService.getUserById(userId);  
+		  logger.info(JSON.toJSONString(user));	
+		  model.addAttribute("user", user);		
 		  
 		  System.out.println("<<====结束===>>");
-		  return mav;
+		  return "showUser";
+		  
+	  }
+	
+	@RequestMapping("/showAllUser")
+	 public String allUser(HttpServletRequest request,Model model){
+
+		  System.out.println("<<====开始===>>");
+		  
+		  List<User> lUser = userService.selectAllStudent(); 
+		  for(User user:lUser){
+				logger.info("值："+user.getUserName());
+				logger.info(JSON.toJSONString(user));
+			}
+		  model.addAttribute("userList", lUser);		
+		  
+		  System.out.println("<<====结束===>>");
+		  return "showUser";
 		  
 	  }
 }

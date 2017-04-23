@@ -1,5 +1,7 @@
 package com.zw.test;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
@@ -25,11 +27,12 @@ public class ServiceTest1 {
 
 	@Test
 	public void test1() {
-		User user = userService.getUserById(1);
-	    System.out.println(user.getUserName());
-	    logger.info("Öµ£º"+user.getUserName());
-		logger.info(JSON.toJSONString(user));
-		System.out.println(111);
+		List<User> lUser = userService.selectAllStudent();
+		for(User user:lUser){
+			logger.info("Öµ£º"+user.getUserName());
+			logger.info(JSON.toJSONString(user));
+		}
+	    
 	}
 
 }

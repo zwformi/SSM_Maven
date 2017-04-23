@@ -1,5 +1,7 @@
 package com.zw.dao;
 
+import java.util.List;
+
 import com.zw.pojo.User;
 
 public interface UserDao {
@@ -10,6 +12,8 @@ public interface UserDao {
     int insertSelective(User record);
 
     User selectByPrimaryKey(Integer id);
+    
+    List<User> selectAll();
 
     int updateByPrimaryKeySelective(User record);
 

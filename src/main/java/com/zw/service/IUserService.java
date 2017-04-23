@@ -1,8 +1,12 @@
 package com.zw.service;
 
+import java.util.List;
+
 import com.zw.pojo.User;
 
 public interface IUserService {
 	
-	public User getUserById(int userId);
+	User getUserById(int userId);
+	
+	List<User> selectAllStudent();
 }
