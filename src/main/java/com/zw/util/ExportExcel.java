@@ -229,7 +229,7 @@ public class ExportExcel<T> {
 	   
 	   
 	   
-	   public static void main(String[] args) {
+/*	   public static void main(String[] args) {
 		      // 测试学生
 		      ExportExcel<Student> ex = new ExportExcel<Student>();
 		      String[] headers = { "学号", "姓名", "年龄", "性别", "出生日期" };
@@ -275,7 +275,7 @@ public class ExportExcel<T> {
 		         // TODO Auto-generated catch block
 		         e.printStackTrace();
 		      }
-		   }
+		   }*/
 
 
 }
