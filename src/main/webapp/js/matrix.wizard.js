@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
 	
-	$("#form-wizard").formwizard({ 
+	/*$("#form-wizard").formwizard({ 
 		formPluginEnabled: true,
 		validationEnabled: true,
 		focusFirstInput : true,
@@ -39,5 +39,5 @@ $(document).ready(function(){
 				$(element).parents('.control-group').removeClass('error');
 			}
 		}
-	});	
+	});	*/
 });

@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
 		            <h5>Data table</h5>
 		            <span class="exportExl" style="padding: 10px;line-height: 12px;">
-		             <button class="btn btn-success">导出excle</button>
+		             <a role="button" class="btn btn-success" href="javascript:void(0);">导出excle</a>
 		            </span>
 		          </div>
 		          <div class="widget-content nopadding">

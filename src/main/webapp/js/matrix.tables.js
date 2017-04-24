@@ -43,9 +43,19 @@ $(document).ready(function(){
 	})
 
 	$(".exportExl").on("click",function(){
-		alert("123");
-       $.getJSON("/user/dowmLoadExl.do",function(dat){		
-		})	
+		var form = $("<form>");
+		form.attr("style","display:none");
+		form.attr("target","");
+		form.attr("method","get");
+		form.attr("action","/user/dowmLoadExl.do");
+		var input1 = $("<input>");
+		input1.attr("type","hidden");
+		input1.attr("name","strZipPath");
+		input1.attr("value","zzzw");
+		$("body").append(form);
+		form.append(input1);
+		form.submit();
+		form.remove();
 	})
 	
 	$('input[type=checkbox],input[type=radio],input[type=file]').uniform();
