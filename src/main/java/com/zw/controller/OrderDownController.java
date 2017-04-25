@@ -21,7 +21,7 @@ import com.zw.util.WordGenerator;
 
 @Controller
 @RequestMapping("/file")
-public class OrderDown {
+public class OrderDownController {
 	private static final long serialVersionUID = 1L; 
 	
 	@RequestMapping(value = "/dowmLoadOrd", method = RequestMethod.POST)

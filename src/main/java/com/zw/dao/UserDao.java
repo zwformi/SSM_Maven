@@ -13,6 +13,8 @@ public interface UserDao {
 
     User selectByPrimaryKey(Integer id);
     
+    User selectByName(String name);
+    
     List<User> selectAll();
 
     int updateByPrimaryKeySelective(User record);

@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_1492692559171">
  <welcome-file-list>
-    	<welcome-file>index.jsp</welcome-file>
+    	<welcome-file>login.jsp</welcome-file>
  </welcome-file-list> 
  <!--    加载springmybatis.xml配置文件 -->
     <context-param>
@@ -43,18 +43,19 @@
 
     <!-- set character encoding spring 设置字符集编码-->
          <!-- set character encoding spring 设置字符集编码-->
-    <filter>
-        <filter-name>characterEncodingFilter</filter-name>
-        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-        <init-param>
-            <param-name>encoding</param-name>
-            <param-value>UTF-8</param-value>
-        </init-param>
-        <init-param>
-            <param-name>forceEncoding</param-name>
-            <param-value>true</param-value>
-        </init-param>
-    </filter>    
+    <!-- 字符过滤器 -->  
+    <filter>  
+        <filter-name>encodingFilter</filter-name>  
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  
+        <init-param>  
+            <param-name>encoding</param-name>  
+            <param-value>UTF-8</param-value>  
+        </init-param>  
+    </filter>  
+    <filter-mapping>  
+        <filter-name>encodingFilter</filter-name>   
+        <url-pattern>/*</url-pattern>  
+    </filter-mapping>      
     
     <!-- 配置session过期时间120分钟 -->
     <session-config>  

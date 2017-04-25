@@ -10,12 +10,19 @@
   <sql id="Base_Column_List" >
     id, user_name, password, age
   </sql>
-  <!-- 根据主键查询全部学生 -->
+  <!-- 根据主键查询学生 -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from user_t
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!-- 根据姓名查询学生 -->
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_t
+    where user_name = #{name,jdbcType=VARCHAR}
   </select>
   <!-- 查询全部学生 -->
   <select id="selectAll" resultMap="BaseResultMap" > 
