@@ -47,6 +47,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            <span class="exportExl" style="padding: 10px;line-height: 12px;">
 		             <a role="button" class="btn btn-success" href="javascript:void(0);">导出excle</a>
 		            </span>
+		            <span class="add" style="padding: 10px;line-height: 12px;">
+		             <a role="button" class="btn btn-success" href="javascript:void(0);" onclick="add()">Add</a>
+		            </span>
+		            <span class="delete" style="padding: 10px;line-height: 12px;">
+		             <a role="button" class="btn btn-warning" href="javascript:void(0);" onclick="del()">Delete</a>
+		            </span>
 		          </div>
 		          <div class="widget-content nopadding">
 		            <table class="table table-bordered data-table">
@@ -62,7 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		              <tbody id="div_tbody">
 			              <script id="UserList" type="text/html">
                           {{each userlist as value i}}
-		                   <tr class="gradeX"> 
+		                   <tr class="gradeX" ondblclick="edit(this)"> 
 		                    <td><input type="checkbox" /></td>
 		                    <td>{{value.id}}</td> 
 		                    <td>{{value.userName}}</td>
@@ -86,6 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="<%=basePath%>js/jquery.uniform.js"></script> 
 		<script src="<%=basePath%>js/select2.min.js"></script> 
 		<script src="<%=basePath%>js/template.js"></script>
+		<script src="<%=basePath%>js/matrix.js"></script> 
 		<script src="<%=basePath%>js/jquery.dataTables.min.js"></script>
 		<script src="<%=basePath%>js/matrix.tables.js"></script>		
 		</body>

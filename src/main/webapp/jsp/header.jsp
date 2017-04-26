@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -54,7 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      </ul>
 		    </li>
 		    <li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-		    <li class=""><a title="" href="<%=basePath%>login.jsp"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
+		    <li class=""><a title="" href="<%=basePath%>logout.do"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
 		  </ul>
 		</div>
 		<!--close-top-Header-menu-->

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.zw.annotation.SystemControllerLog;
 import com.zw.dao.UserDao;
 import com.zw.pojo.User;
 
@@ -16,6 +17,7 @@ public class LoginController {
 	@Resource
 	private UserDao userdao;
 	@RequestMapping(value="/login",method = RequestMethod.POST)
+	@SystemControllerLog(description = "ÓÃ»§µÇÂ¼")
 	 public String user(HttpServletRequest request,Model model){
 		  
 		String name = request.getParameter("name");
@@ -36,14 +38,15 @@ public class LoginController {
 		             return "login";
 		         }
 		         model.addAttribute("user", user);
-		         request.getSession().setAttribute("current_user", user);
-		         System.out.println(request.getSession().getAttribute("current_user").toString());
+		         request.getSession().setAttribute("user", user);
+		         System.out.println(request.getSession().getAttribute("user").toString());
 		         return "index";
 		     }		
 	
-	@RequestMapping("/toLogin")
-	public String toLogin() {
-	    return "login";
+	@RequestMapping("/logout")
+	public String toLogin(HttpServletRequest request) {
+		request.getSession().invalidate();
+		return "redirect:/login.jsp";
 	}
 	
 }

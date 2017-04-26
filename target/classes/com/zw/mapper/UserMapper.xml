@@ -23,6 +23,7 @@
     <include refid="Base_Column_List" />
     from user_t
     where user_name = #{name,jdbcType=VARCHAR}
+    GROUP BY user_name
   </select>
   <!-- 查询全部学生 -->
   <select id="selectAll" resultMap="BaseResultMap" > 
@@ -30,14 +31,24 @@
     <include refid="Base_Column_List" />
     from user_t
   </select>
+  <!-- 单个删除 -->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from user_t
     where id = #{id,jdbcType=INTEGER}
   </delete>
+ <!--  批量删除 -->
+   <delete id="deleteByIds" parameterType="java.lang.Integer" >
+    delete from user_t
+    where id in
+    <foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+	 #{item}  
+	</foreach>
+  </delete>
+  
   <insert id="insert" parameterType="com.zw.pojo.User" >
-    insert into user_t (id, user_name, password, 
+    insert into user_t (user_name, password, 
       age)
-    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{age,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.zw.pojo.User" >

@@ -20,12 +20,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
+import com.zw.annotation.SystemControllerLog;
+import com.zw.annotation.SystemServiceLog;
 import com.zw.pojo.User;
 import com.zw.service.IUserService;
 import com.zw.util.ExportExcel;
@@ -38,18 +38,19 @@ public class TestStudentController {
 	private IUserService userService = null; 
 	private static Logger logger = Logger.getLogger(TestStudentController.class);
 	
-	@RequestMapping("/showUser")
-	 public String user(HttpServletRequest request,Model model){
+	@RequestMapping("/getUser")
+	@ResponseBody
+	 public User user(HttpServletRequest request,Model model){
 
 		  System.out.println("<<====开始===>>");
 		  
 		  int userId = Integer.parseInt(request.getParameter("id"));
 		  User user = userService.getUserById(userId);  
 		 /* logger.info(JSON.toJSONString(user));	*/
-		  model.addAttribute("user", user);		
+		 /* model.addAttribute("user", user);*/		
 		  
 		  System.out.println("<<====结束===>>");
-		  return "showUser";
+		  return user;
 		  
 	  }
 	
@@ -151,7 +152,53 @@ public class TestStudentController {
 	            if(in != null) in.close();  
 	            if(outEnd != null) outEnd.close();  
 	            if(fileEnd != null) fileEnd.delete(); // 删除临时文件  
-	        }  
+	        }  		
+	}
+	
+	@RequestMapping("/addUser")
+    @SystemControllerLog(description = "添加用户")	
+	 public void addUser(HttpServletRequest request,HttpServletResponse response,Model model) throws IOException{
 		
+		  String page = "";
+		  String msg = "";
+		  int rs = userService.insertUser(request); 
+		  if(rs>0){
+			  msg="添加成功";
+			  page = "/jsp/tables.jsp";
+			   
+		  }
+		  else{
+			  msg="添加失败";
+			  page = "/jsp/form-wizard.jsp?type=add";
+		  }
+/*		  if(msg.length() < 2 || msg.length() > 3)  
+	        {  
+	            throw new IllegalArgumentException("msg参数的长度必须大于3，小于4！");  
+	        }  */
+		  model.addAttribute("msg", msg);
+		  response.sendRedirect(page);	  
+	  }
+	
+	@RequestMapping("/editUser")
+	@SystemControllerLog(description = "修改用户")
+	 public void editUser(HttpServletRequest request,HttpServletResponse response,Model model) throws IOException{
+		
+		userService.updateUser(request); 
+		response.sendRedirect("/jsp/tables.jsp");
+	}
+	
+	@RequestMapping("/delUser")
+	@ResponseBody
+	@SystemControllerLog(description = "删除用户")
+	 public String delUser(HttpServletRequest request,HttpServletResponse response,Model model) throws IOException{
+		String msg="";
+		int rs =userService.deleteUser(request); 
+		if(rs>0){
+			msg="删除成功";
+		}
+		else{
+			msg="删除失败";
+		}
+		return msg;
 	}
 }

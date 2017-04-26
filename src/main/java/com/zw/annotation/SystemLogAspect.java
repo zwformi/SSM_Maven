@@ -3,15 +3,21 @@ package com.zw.annotation;
 import java.lang.reflect.Method;
 
 import javax.annotation.Resource;
+/*import javax.servlet.http.*;*/
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.*;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.zw.pojo.User;
+import com.zw.service.LogService;
+import com.zw.pojo.Logxx;
 import com.zw.util.DateUtil;
 
 /** 
@@ -22,8 +28,11 @@ import com.zw.util.DateUtil;
  */  
 @Aspect   
 @Component 
-public class SystemLogAspect {
+public class SystemLogAspect{
 
+	@Autowired  
+	HttpServletRequest request; //这里可以获取到request
+	private String UserName="";
     //注入Service用于把日志保存数据库   
     @Resource  
     private LogService logService;  
@@ -31,27 +40,34 @@ public class SystemLogAspect {
     private static final Logger logger = Logger.getLogger(SystemLogAspect.class);  
   
     //Service层切点   
-    @Pointcut("@annotation(com.annotation.SystemServiceLog)")  
+    @Pointcut("@annotation(com.zw.annotation.SystemServiceLog)")  
     public void serviceAspect() {  
     }  
   
     //Controller层切点  
-    @Pointcut("@annotation(com.annotation.SystemControllerLog)")  
+    @Pointcut("@annotation(com.zw.annotation.SystemControllerLog)")  
     public void controllerAspect() {  
     }  
-  
+    
+
     /** 
      * 前置通知 用于拦截Controller层记录用户的操作 
      * 
      * @param joinPoint 切点 
      */  
     @Before("controllerAspect()")  
-    public void doBefore(JoinPoint joinPoint) {   
+    public void doBefore(JoinPoint joinPoint) {      
   
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();  
+    	/*HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest(); */  
         HttpSession session = request.getSession();  
         //读取session中的用户  
-        User user = (User) session.getAttribute(WebConstants.CURRENT_USER);  
+        User user = (User) session.getAttribute("user");  
+        if(user!=null){
+        	UserName = user.getUserName();
+        }
+        else{
+        	UserName = "游客";
+        }
         //请求的IP  
         String ip = request.getRemoteAddr();  
         try {  
@@ -59,21 +75,21 @@ public class SystemLogAspect {
             System.out.println("=====前置通知开始=====");  
             System.out.println("请求方法:" + (joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()"));  
             System.out.println("方法描述:" + getControllerMethodDescription(joinPoint));  
-            System.out.println("请求人:" + user.getUserName());  
+            System.out.println("请求人:" + UserName);  
             System.out.println("请求IP:" + ip);  
             //*========数据库日志=========*//  
-            Log log = SpringContextHolder.getBean("logxx");  
+            Logxx log = new Logxx();  
             log.setDescription(getControllerMethodDescription(joinPoint));  
             log.setMethod((joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()"));  
-            log.setType("0");  //操作日志
+            log.setType(0);  //操作日志
             log.setRequestIp(ip);  
             log.setExceptionCode(null);  
             log.setExceptionDetail(null);  
             log.setParams(null);  
-            log.setCreateBy(user);  
+            log.setCreateBy(UserName);  
             log.setCreateDate(DateUtil.getCurrentDate());  
             //保存数据库  
-            logService.add(log);  
+            logService.addlog(log);  
             System.out.println("=====前置通知结束=====");  
         } catch (Exception e) {  
             //记录本地异常日志  
@@ -90,11 +106,17 @@ public class SystemLogAspect {
      */  
     @AfterThrowing(pointcut = "serviceAspect()", throwing = "e")  
     public void doAfterThrowing(JoinPoint joinPoint, Throwable e) {  
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();  
+        /*HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();*/  
         HttpSession session = request.getSession();  
         //读取session中的用户  
        /* User user = (User) session.getAttribute(WebConstants.CURRENT_USER); */ 
-        User user = (User) session.getAttribute("user"); 
+        User user = (User) session.getAttribute("user");         
+        if(user!=null){
+        	UserName = user.getUserName();
+        }
+        else{
+        	UserName = "游客";
+        }
         //获取请求ip  
         String ip = request.getRemoteAddr();  
         //获取用户请求方法的参数并序列化为JSON格式字符串  
@@ -111,22 +133,22 @@ public class SystemLogAspect {
             System.out.println("异常信息:" + e.getMessage());  
             System.out.println("异常方法:" + (joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()"));  
             System.out.println("方法描述:" + getServiceMthodDescription(joinPoint));  
-            System.out.println("请求人:" + user.getUserName());  
+            System.out.println("请求人:" + UserName);  
             System.out.println("请求IP:" + ip);  
             System.out.println("请求参数:" + params);  
                /*==========数据库日志=========*/  
-            Log log = SpringContextHolder.getBean("logxx");  
+            Logxx log = new Logxx();  
             log.setDescription(getServiceMthodDescription(joinPoint));   
             log.setExceptionCode(e.getClass().getName());  
-            log.setType("1");  //异常类型
+            log.setType(1);  //异常类型
             log.setExceptionDetail(e.getMessage());  
             log.setMethod((joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()"));  
             log.setParams(params);  
-            log.setCreateBy(user);  
+            log.setCreateBy(UserName);  
             log.setCreateDate(DateUtil.getCurrentDate());  
             log.setRequestIp(ip);  
             //保存数据库  
-            logService.add(log);  
+            logService.addlog(log);  
             System.out.println("=====异常通知结束=====");  
         } catch (Exception ex) {  
             //记录本地异常日志  
@@ -188,6 +210,11 @@ public class SystemLogAspect {
                 }  
             }  
         }  
-        return description;  
+        return description;   
     }  
+    
+/*    public int getOrder() {  
+        // TODO Auto-generated method stub  
+        return 1;  
+    }*/
 }

@@ -2,6 +2,7 @@ package com.zw.dao;
 
 import java.util.List;
 
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 import com.zw.pojo.User;
 
 public interface UserDao {
@@ -20,4 +21,6 @@ public interface UserDao {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+    
+    int deleteByIds(String[] ids);
 }

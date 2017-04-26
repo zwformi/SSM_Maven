@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zw.dao.LogDao" > 
+  <resultMap id="BaseResultMap" type="com.zw.pojo.Logxx" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="exceptionCode" property="exceptionCode" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="exceptionDetail" property="exceptionDetail" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="params" property="params" jdbcType="VARCHAR" />
+    <result column="createBy" property="createBy" jdbcType="VARCHAR" />
+    <result column="createDate" property="createDate" jdbcType="VARCHAR" />
+    <result column="requestIp" property="requestIp" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zw.pojo.Logxx" >
+    insert into test_log (description, exceptionCode, type, exceptionDetail, method, params, createBy,
+      createDate, requestIp)
+    values (#{description,jdbcType=VARCHAR}, #{exceptionCode,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+            #{exceptionDetail,jdbcType=VARCHAR},#{method,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR},#{createBy,jdbcType=VARCHAR},  
+            #{createDate,jdbcType=VARCHAR}, #{requestIp,jdbcType=VARCHAR})
+  </insert>  
+</mapper>

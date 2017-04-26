@@ -78,6 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        <input type="submit" value="保存Word文档" />  
 					    </div>  
 		            </form>
+		            <span>${msg}</span>>
 		          </div>
 		        </div>
 		      </div>
@@ -86,9 +87,61 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	
 <%-- 		<script src="<%=basePath%>js/jquery.validate.js"></script> 
-		<script src="<%=basePath%>js/jquery.wizard.js"></script> 
-		<script src="<%=basePath%>js/matrix.js"></script>  --%>
+		<script src="<%=basePath%>js/jquery.wizard.js"></script>   --%>
+		<script src="<%=basePath%>js/matrix.js"></script>
 		<script src="<%=basePath%>js/matrix.wizard.js"></script>
+		<script type="text/javascript">
+		window.onload=function(){
+		    var htmlArr=[];
+		    if(!!getUrlParam("type")){
+		           if(getUrlParam("type")=="add"){
+		             htmlArr.push('<form class="form-horizontal" role="form" action="/user/addUser.do" method="POST">');
+		           }
+		           else{
+		             htmlArr.push('<form class="form-horizontal" role="form" action="/user/editUser.do" method="POST">');
+		           }
+		           htmlArr.push('<input type="hidden"  id="id" name="id">');
+		           htmlArr.push('<div style="text-align: center;">');
+		             htmlArr.push('<label for="username" class="">姓名</label>');
+		              htmlArr.push('<input type="text"  id="username" name="userName" placeholder="请输入名字">');
+		                htmlArr.push('</div>');
+		                 htmlArr.push('<div style="text-align: center;">');
+		                  htmlArr.push('<label for="password" class="">密码</label>');
+		                    htmlArr.push('<input type="text" class="form-control" id="password" name="password" placeholder="请输入密码">');
+		                      htmlArr.push('</div>');
+		                       htmlArr.push('<div style="text-align: center;">');
+		                        htmlArr.push('<label for="age" class="">年龄</label>');
+		                         htmlArr.push('<input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">');		                       
+		                          htmlArr.push('</div>');
+		                          htmlArr.push('<div style="text-align: center;margin-top:5px">');
+		                          if(getUrlParam("type")=="add"){
+		                             htmlArr.push('<button type="submit" class="btn btn-default">保存</button>');
+		                          }
+		                          else{
+		                             htmlArr.push('<button type="submit" class="btn btn-default">确认修改</button>');
+		                          }
+		                          htmlArr.push('</div>');
+		                          htmlArr.push('</form>');
+		                          
+		              $(".widget-content").html(htmlArr.join(""));
+		              if(getUrlParam("type")=="edit"&&getUrlParam("id")!=null){
+		                 $.post("/user/getUser.do",{"id":getUrlParam("id")},function(dat){
+		                     $("#username").val(dat.userName);
+		                     $("#password").val(dat.password);
+		                     $("#age").val(dat.age);
+		                     $("#id").val(getUrlParam("id"));
+		                 })
+		              
+		              }                                 
+		    }
+		
+		}
+      function getUrlParam(name) {
+	      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+	      var r = window.location.search.substr(1).match(reg);  //匹配目标参数 
+	      if (r != null) return decodeURI(r[2]); return null; //返回参数值
+      }
+		</script>
 	</body>
 	</html>
 

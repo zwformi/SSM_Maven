@@ -41,7 +41,7 @@ $(document).ready(function(){
 					
 				});
 	})
-
+    //导出excle列表
 	$(".exportExl").on("click",function(){
 		var form = $("<form>");
 		form.attr("style","display:none");
@@ -56,7 +56,7 @@ $(document).ready(function(){
 		form.append(input1);
 		form.submit();
 		form.remove();
-	})
+	})	
 	
 	$('input[type=checkbox],input[type=radio],input[type=file]').uniform();
 	
@@ -76,3 +76,31 @@ $(document).ready(function(){
 		});
 	});	
 });
+
+//新增
+	function add(){		
+		/*alert("add");*/
+		window.location.href="/jsp/form-wizard.jsp?type=add";
+	}
+  
+	//删除
+	function del(){ 		
+		/*alert("delete");*/
+		var ids="";
+		var chList=$("#div_tbody").find("td").find("input:checkbox:checked");
+		chList.each(function (i) {
+			ids+=$(this).parent("td").next("td").html()+",";
+		})	
+		$.post("/user/delUser.do",{"ids":ids.substring(0,ids.length-1)},function(dat){
+			alert(dat);
+			/*window.location.Reload();*/
+			location.replace(location.href);
+		})
+		
+	}
+	
+	//编辑
+	function edit(sl){		
+		var id=$(sl).find("td").eq(1).html();
+		window.location.href="/jsp/form-wizard.jsp?type=edit&id="+id;
+	}
