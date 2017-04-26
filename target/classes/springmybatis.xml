@@ -47,7 +47,7 @@
 	</bean>
 
 	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.zw.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>
@@ -59,6 +59,6 @@
 	</bean>
     <!-- 可通过注解控制事务 -->
     <tx:annotation-driven />
-    <!-- 启动对@AspectJ注解的支持 -->  
-    <aop:aspectj-autoproxy/> 
+    <!-- 配置aspect 自动为匹配的类 产生代理对象 -->
+    <aop:aspectj-autoproxy/>  
 </beans>

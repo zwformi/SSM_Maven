@@ -46,9 +46,7 @@
 	<task:executor id="executor" pool-size="1" />
 	<task:scheduler id="scheduler" pool-size="1" />
 	<task:annotation-driven executor="executor" scheduler="scheduler" />   
-	
-	<!-- 启动对@AspectJ注解的支持 -->   
-    <aop:aspectj-autoproxy/>    
+	  
     <!--通知spring使用cglib而不是jdk的来生成代理方法 AOP可以拦截到Controller -->  
     <aop:aspectj-autoproxy proxy-target-class="true"/>    
 </beans>    

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.zw.annotation.SystemControllerLog;
+import com.zw.annotation.SystemLoginLog;
 import com.zw.dao.UserDao;
 import com.zw.pojo.User;
 
@@ -17,7 +18,7 @@ public class LoginController {
 	@Resource
 	private UserDao userdao;
 	@RequestMapping(value="/login",method = RequestMethod.POST)
-	@SystemControllerLog(description = "用户登录")
+	@SystemLoginLog(description = "用户登录")
 	 public String user(HttpServletRequest request,Model model){
 		  
 		String name = request.getParameter("name");

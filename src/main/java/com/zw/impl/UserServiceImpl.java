@@ -38,9 +38,9 @@ public class UserServiceImpl implements IUserService {
 		user.setPassword(request.getParameter("password"));
 		user.setAge(Integer.valueOf(request.getParameter("age")));
 		int rs = this.userDao.insert(user);
-		if(user.getUserName().length() < 3 || user.getUserName().length() > 4)  
+		if(user.getUserName().length() < 3 || user.getUserName().length() > 5)  
         {  
-            throw new IllegalArgumentException("name参数的长度必须大于3，小于4！");  
+            throw new IllegalArgumentException("name参数的长度必须大于3，小于5！");  
         }  
 		return rs;
 	}
