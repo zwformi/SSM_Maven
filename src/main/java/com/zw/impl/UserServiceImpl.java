@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
+import com.zw.annotation.PrivilegeInfo;
 import com.zw.annotation.SystemServiceLog;
 import com.zw.dao.UserDao;
 import com.zw.pojo.User;
@@ -58,6 +59,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@PrivilegeInfo("delete")
 	public int deleteUser(HttpServletRequest request) {
 		// TODO Auto-generated method stub
 		String idArr = request.getParameter("ids");

@@ -9,6 +9,9 @@ public class User {
 
     private Integer age;
     
+    private Integer roleid;
+    
+
 	public Integer getId() {
         return id;
     }
@@ -40,4 +43,12 @@ public class User {
     public void setAge(Integer age) {
         this.age = age;
     }
+    
+    public Integer getRoleid() {
+		return roleid;
+	}
+
+	public void setRoleid(Integer roleid) {
+		this.roleid = roleid;
+	}
 }
